@@ -104,6 +104,7 @@ public class EntityUtil {
         return JcrUtil.path("/metadata", "domainTypes").toString();
     }
 
+
     public static String pathForUsers() {
         return JcrUtil.path("/users").toString();
     }
@@ -119,6 +120,8 @@ public class EntityUtil {
     public static String asQueryProperty(String prop) {
         return "[" + prop + "]";
     }
+
+
 }
 
 

@@ -16,11 +16,17 @@
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
     <plugin.license.parentRelative>../../</plugin.license.parentRelative>
+    <guava.version>19.0</guava.version>
   </properties>
+
 
   <dependencyManagement>
     <dependencies>
-
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -192,6 +198,13 @@
       <artifactId>kylo-feed-manager-controller</artifactId>
       <version>${project.version}</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.thinkbiganalytics.kylo</groupId>
+      <artifactId>kylo-project-manager-service</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
 
     <dependency>
       <groupId>com.thinkbiganalytics.kylo</groupId>
@@ -438,14 +451,14 @@
       <version>1.5.7</version>
     </dependency>
     <!--<dependency>-->
-      <!--<groupId>org.postgresql</groupId>-->
-      <!--<artifactId>postgresql</artifactId>-->
-      <!--<version>42.0.0</version>-->
+    <!--<groupId>org.postgresql</groupId>-->
+    <!--<artifactId>postgresql</artifactId>-->
+    <!--<version>42.0.0</version>-->
     <!--</dependency>-->
     <!--<dependency>-->
-      <!--<groupId>com.microsoft.sqlserver</groupId>-->
-      <!--<artifactId>mssql-jdbc</artifactId>-->
-      <!--<version>6.2.1.jre7</version>-->
+    <!--<groupId>com.microsoft.sqlserver</groupId>-->
+    <!--<artifactId>mssql-jdbc</artifactId>-->
+    <!--<version>6.2.1.jre7</version>-->
     <!--</dependency>-->
 
 
@@ -498,7 +511,6 @@
 
 
   <build>
-
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -550,9 +562,9 @@
             <version>42.0.0</version>
           </dependency>
           <!--<dependency>-->
-            <!--<groupId>com.microsoft.sqlserver</groupId>-->
-            <!--<artifactId>mssql-jdbc</artifactId>-->
-            <!--<version>6.2.1.jre7</version>-->
+          <!--<groupId>com.microsoft.sqlserver</groupId>-->
+          <!--<artifactId>mssql-jdbc</artifactId>-->
+          <!--<version>6.2.1.jre7</version>-->
           <!--</dependency>-->
           <dependency>
             <groupId>org.liquibase</groupId>

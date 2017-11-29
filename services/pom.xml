@@ -22,6 +22,7 @@
     <module>service-monitor-service</module>
     <module>thrift-proxy-service</module>
     <module>feed-manager-service</module>
+    <module>project-manager-service</module>
     <module>security-service</module>
     <module>schema-discovery-service</module>
     <module>operational-metadata-service</module>

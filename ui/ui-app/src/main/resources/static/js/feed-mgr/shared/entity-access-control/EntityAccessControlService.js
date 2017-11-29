@@ -36,6 +36,8 @@ define(['angular', 'feed-mgr/module-name','constants/AccessConstants'], function
                 var url = '';
                 if (membersType === 'feed') {
                     url = RestUrlService.FEED_ROLES_URL(entity.id);
+                } else if (membersType === 'project') {
+                    url = RestUrlService.PROJECT_ROLES_URL(entity.id);
                 } else if (membersType === 'category') {
                     url = RestUrlService.CATEGORY_ROLES_URL(entity.id);
                 } else if (membersType === 'category-feed') {
@@ -60,7 +62,7 @@ define(['angular', 'feed-mgr/module-name','constants/AccessConstants'], function
         var svc = angular.extend(EntityAccessControlService.prototype, AccessConstants);
 
         var data = angular.extend(svc, {
-            entityRoleTypes: {CATEGORY: "category", CATEGORY_FEED: "category-feed", FEED: "feed", TEMPLATE: "template", DATASOURCE: "datasource"},
+            entityRoleTypes: {PROJECT: "project", CATEGORY: "category", CATEGORY_FEED: "category-feed", FEED: "feed", TEMPLATE: "template", DATASOURCE: "datasource"},
 
             /**
              * Ensure the entity's roleMemberships.members are pushed back into the proper entity.roleMemberships.users and entity.roleMemberships.groups
@@ -200,6 +202,8 @@ define(['angular', 'feed-mgr/module-name','constants/AccessConstants'], function
                 var url = '';
                 if (entityType === 'feed') {
                     url = RestUrlService.FEED_ROLES_URL(entityId);
+                } else if (entityType === 'project') {
+                    url = RestUrlService.PROJECT_ROLES_URL(entityId);
                 } else if (entityType === 'category') {
                     url = RestUrlService.CATEGORY_ROLES_URL(entityId);
                 } else if (entityType === 'template') {

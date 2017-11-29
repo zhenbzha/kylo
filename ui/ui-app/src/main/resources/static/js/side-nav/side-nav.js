@@ -88,6 +88,7 @@ define(['angular','side-nav/module-name', 'constants/AccessConstants', 'side-nav
                 function buildFeedManagerMenu() {
                     var menu = ({type:'toggle', text: "Feed Manager",narrowText:'Feed',expanded:true,elementId:'toggle_feed_manager'});
                     var links = [];
+                    links.push({sref: "projects",type:'link', icon: "linear_scale", text: "Projects", permission: AccessConstants.UI_STATES.PROJECTS.permissions});
                     links.push({sref: "feeds",type:'link', icon: "linear_scale", text: "Feeds", permission: AccessConstants.UI_STATES.FEEDS.permissions});
                     links.push({sref: "categories",type:'link', icon: "folder_special", text: "Categories", permission: AccessConstants.UI_STATES.CATEGORIES.permissions});
                     links.push({sref: "tables",type:'link', icon: "grid_on", text: "Tables", permission: AccessConstants.UI_STATES.TABLES.permissions});

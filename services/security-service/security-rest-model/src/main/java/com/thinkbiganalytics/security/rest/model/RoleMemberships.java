@@ -3,7 +3,12 @@
  */
 package com.thinkbiganalytics.security.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 import java.util.HashMap;
+import java.util.Map;
 
 /*-
  * #%L
@@ -14,9 +19,9 @@ import java.util.HashMap;
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *     http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,12 +29,6 @@ import java.util.HashMap;
  * limitations under the License.
  * #L%
  */
-
-import java.util.Map;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 /**
  * A set of role memberships grouped by role name and separated between
@@ -70,5 +69,13 @@ public class RoleMemberships {
     public void setAssigned(Map<String, RoleMembership> assigned) {
         this.assigned = new HashMap<>(assigned);;
     }
-    
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("RoleMemberships{");
+        sb.append("inherited=").append(inherited);
+        sb.append(", assigned=").append(assigned);
+        sb.append('}');
+        return sb.toString();
+    }
 }
