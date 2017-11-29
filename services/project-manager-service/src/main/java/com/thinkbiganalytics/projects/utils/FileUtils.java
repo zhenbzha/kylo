@@ -21,7 +21,6 @@ package com.thinkbiganalytics.projects.utils;
  */
 
 import com.google.common.collect.ImmutableSet;
-import com.thinkbiganalytics.projects.exceptions.NotebookIoException;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.slf4j.Logger;
@@ -125,8 +124,8 @@ public class FileUtils {
 
                 Files.createLink(dest, source.toPath());
             } catch (IOException e) {
+                // Note: there are situations where the link may have already been created.. that's fine.  Let's continue
                 logger.error("Unable to create link '{}' on file '{}'", dest, source);
-                throw new NotebookIoException("Unable to create link.", e);
             }
         }
     }
