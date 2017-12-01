@@ -137,7 +137,7 @@ public class RecursiWatcherService {
                         if (absPath.toFile().isDirectory()) {
                             // TODO: hmm.. might need to delete watch key for deleted directories...
                             register.accept(absPath);
-                            return;
+                            // return;  Don't return so that we will process the directory replication
                         }
                         final File f = absPath.toFile();
                         if (e.kind() == ENTRY_CREATE) {
