@@ -136,7 +136,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     private void ensureProjectRepo(Project domain, boolean ensureUserRepo) {
-        notebookFileSystemService.ensureProjectRepository(domain.getSystemName());
+        notebookFileSystemService.ensureMasterProjectRepository(domain.getSystemName());
         if (ensureUserRepo) {
             UsernamePrincipal user = JcrMetadataAccess.getActiveUser();
             notebookFileSystemService.ensureProjectMounts(user.getName(), ImmutableList.of(domain));

@@ -51,7 +51,7 @@ public class NotebookFileSystemServiceImpl implements NotebookFileSystemService 
      * Using the configuration given, creates and ensures the main project repository is fit for purpose.
      */
     @Override
-    public Path ensureProjectRepository(String project) {
+    public Path ensureMasterProjectRepository(String project) {
         logger.debug("project={}", project);
         logger.debug("masterRepo={}", masterRepo);
         Path repoPath = ensurePath(masterRepo);
@@ -93,6 +93,7 @@ public class NotebookFileSystemServiceImpl implements NotebookFileSystemService 
     private File ensurePath(Path path) {
         return ensurePath( path.toFile()).toFile();
     }
+
 
     private Path ensurePath(File path) {
         if (path.exists()) {

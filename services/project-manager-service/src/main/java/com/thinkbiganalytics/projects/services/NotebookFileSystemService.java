@@ -30,7 +30,7 @@ public interface NotebookFileSystemService {
     /**
      * @implNote repositories are where data is kept, mounts are where they hard linked for users
      */
-    Path ensureProjectRepository(String projectPath);
+    Path ensureMasterProjectRepository(String projectPath);
 
     /**
      * Ensures the current user's list of accessible notebooks.
