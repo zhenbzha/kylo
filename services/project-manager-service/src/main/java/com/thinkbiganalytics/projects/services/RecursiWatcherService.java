@@ -20,6 +20,7 @@ package com.thinkbiganalytics.projects.services;
  * #L%
  */
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.Sets;
 import com.sun.nio.file.SensitivityWatchEventModifier;
 
@@ -47,6 +48,7 @@ import java.util.function.Consumer;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 
 import static java.nio.file.StandardWatchEventKinds.ENTRY_CREATE;
 import static java.nio.file.StandardWatchEventKinds.ENTRY_DELETE;
@@ -58,6 +60,9 @@ public class RecursiWatcherService {
 
     @Value("${notebooks.users.repository}")
     private File rootFolder;
+
+    @Inject
+    private Cache<Path,Boolean> trackedPaths;
 
     private WatchService watcher;
 

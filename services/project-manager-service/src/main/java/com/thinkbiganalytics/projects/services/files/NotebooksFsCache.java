@@ -1,5 +1,5 @@
 package com.thinkbiganalytics.projects.services.files;
 
-public interface NotebookFsObj {
+public class NotebooksFsCache {
 
 }

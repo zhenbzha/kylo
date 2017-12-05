@@ -27,6 +27,7 @@ import com.thinkbiganalytics.metadata.modeshape.MetadataRepositoryException;
 import com.thinkbiganalytics.metadata.modeshape.ModeShapeEngineConfig;
 import com.thinkbiganalytics.metadata.rest.model.Project;
 import com.thinkbiganalytics.projects.config.ProjectManagerConfig;
+import com.thinkbiganalytics.projects.services.files.UserFsObj;
 import com.thinkbiganalytics.projects.services.impl.ProjectServiceImpl;
 import com.thinkbiganalytics.projects.utils.FileUtils;
 import com.thinkbiganalytics.security.UsernamePrincipal;
@@ -181,15 +182,22 @@ public class TestProjectServices extends AbstractTestNGSpringContextTests {
             projectService.addUserRepoListener();
         }, MetadataAccess.SERVICE);*/
 
-        Path userRepo = usersRepo.toPath().resolve(MetadataAccess.SERVICE.getName());
-        assertThat(userRepo.toFile().exists()).isTrue();
-
         Thread.sleep(2000);
 
-        Path f1 = userRepo.resolve("Project4").resolve("file1");
-        FileUtils.writeFile(f1.toString(), "Yabba dabba doo");
+        String projectName = "Project4";
+        UserFsObj u1 = new UserFsObj.Builder().repoUrl(usersRepo.toPath())
+            .userName(MetadataAccess.SERVICE.getName())
+            .accessType(UserFsObj.ACCESS.WRITE)
+            .projectName(projectName)
+            .fsObj("file1")
+            .build();
 
-        assertThat(f1.toFile().exists()).isTrue();
+        File f1 = u1.getProjectPath().toFile();
+        assertThat(f1.exists()).isTrue();
+
+        FileUtils.writeFile(u1.absPath().toString(), "Yabba dabba doo");
+
+        assertThat(u1.absPath().toFile().exists()).isTrue();
 
         /*
         File f = Paths.get(masterRepo.getAbsolutePath(), "stop").toFile();
@@ -206,7 +214,8 @@ public class TestProjectServices extends AbstractTestNGSpringContextTests {
         }
         */
 
-        File expectedMasterLink = masterRepo.toPath().resolve("Project4").resolve("file1").toFile();
+        //File expectedMasterLink = masterRepo.toPath().resolve("Project4").resolve("file1").toFile();
+        File expectedMasterLink = u1.toMasterRepoFsObj().absPath().toFile();
         waitForFile(expectedMasterLink, true);
 
 
@@ -225,7 +234,7 @@ public class TestProjectServices extends AbstractTestNGSpringContextTests {
         assertThat(expectedTester2File.exists()).isTrue();
 
         // Now delete the file
-        f1.toFile().delete();
+        f1.delete();
 
         // and wait for it to get spotted by the watcher
         waitForFile(expectedMasterLink, false);

@@ -36,7 +36,7 @@ import com.thinkbiganalytics.projects.security.RoleChangeListener;
 import com.thinkbiganalytics.projects.services.NotebookFileSystemService;
 import com.thinkbiganalytics.projects.services.ProjectService;
 import com.thinkbiganalytics.projects.services.ProjectsTransform;
-import com.thinkbiganalytics.projects.utils.FileUtils;
+import com.thinkbiganalytics.projects.utils.NotebookRepoObjUtils;
 import com.thinkbiganalytics.security.UsernamePrincipal;
 
 import org.slf4j.Logger;
@@ -68,6 +68,9 @@ public class ProjectServiceImpl implements ProjectService {
     private NotebookFileSystemService notebookFileSystemService;
 
     @Inject
+    private NotebookRepoObjUtils notebookRepoObjUtils;
+
+    @Inject
     private ProjectSecurityService projectSecurityService;
 
     @Inject
@@ -89,14 +92,12 @@ public class ProjectServiceImpl implements ProjectService {
 
                 //TODO: ensureProjectMounts needs to replicate master project repo for user?  Think it does already
                 notebookFileSystemService.ensureProjectMounts(user.getName(), ImmutableList.of(project));
-
             }
 
             @Override
             public void userRevokedRole(UsernamePrincipal user, Project.ID projectId, String roleName) {
                 Project project = projectProvider.findById(projectId);
 
-                // TODO: correctly remove user from project
                 notebookFileSystemService.deleteProjectRepo(user.getName(), project.getSystemName());
             }
         });
@@ -227,7 +228,7 @@ public class ProjectServiceImpl implements ProjectService {
         Path dest = masterRepo.toPath().resolve(relativeToUserRepo);
 
         // step1: synchronize the create to the master repo.
-        FileUtils.linkOrReplicate(file, dest);
+        notebookRepoObjUtils.linkOrReplicate(file, dest);
 
         // step 2: synchronize the create to all projects in all user repos.
         //     get the accessors to the project via JcrProjectProvider.getProjectAccessors.
@@ -243,7 +244,8 @@ public class ProjectServiceImpl implements ProjectService {
             String userName = user.getName();
             Path userDest = usersRepo.toPath().resolve(userName).resolve(relativeToUserRepo);
 
-            FileUtils.linkOrReplicate(file, userDest);
+            // synchronize the create to other user repos
+            notebookRepoObjUtils.linkOrReplicate(file, userDest);
         }
     }
 
@@ -319,14 +321,6 @@ public class ProjectServiceImpl implements ProjectService {
         return rest;
     }
 
-
-    public File getMasterRepo() {
-        return masterRepo;
-    }
-
-    public File getUsersRepo() {
-        return usersRepo;
-    }
 
     /**
      * Queries metadata repository for all users with any kind of access to a Project with the name given
