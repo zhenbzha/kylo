@@ -22,8 +22,6 @@ package com.thinkbiganalytics.projects.services;
 
 import com.thinkbiganalytics.metadata.rest.model.Project;
 
-import java.io.File;
-import java.nio.file.Path;
 import java.util.Collection;
 
 public interface ProjectService {
@@ -50,20 +48,6 @@ public interface ProjectService {
      * delete’s notebookFolder delete all user noteboookFolder’s delete master notebookFolder
      */
     void deleteProject(String id);
-
-    /**
-     * FE1:  User Create’s a file in a notebook folder Determine all user’s with access to that notebook folder (perhaps from examining file system) Create a hard link to the file in master repo
-     * Create a hard link to the file in all other user repo’s
-     */
-    // calls JCR and calls file system methods
-    void userFileCreated(Path userRepo, File file);
-
-
-    /**
-     * FE2:  User delete’s file in a notebook folder note all users with the notebookFolder on their user repo ( becomes the list for deleting ) delete all hard link’s to the file.
-     */
-    void userFileDeleted(Path userRepo, File file);
-
 
     /**
      * Get the list of projects

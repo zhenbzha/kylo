@@ -68,14 +68,6 @@ public class FileUtils {
         }
     }
 
-
-    /**
-     * @deprecated
-     */
-    public static void replicateFileTreeWithHardLinks(Path source, Path destination, boolean failOnCollisions) {
-        throw new UnsupportedOperationException();
-    }
-
     public static String readFile(String path, Charset encoding) throws IOException {
         byte[] encoded = Files.readAllBytes(Paths.get(path));
         return new String(encoded, encoding);
@@ -91,13 +83,5 @@ public class FileUtils {
             bw.write(content);
         }
     }
-
-    /**
-     * @deprecated
-     */
-    public static void linkOrReplicate(File source, Path dest) {
-        throw new UnsupportedOperationException();
-    }
-
 
 }

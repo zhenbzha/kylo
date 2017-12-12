@@ -29,14 +29,12 @@ import com.thinkbiganalytics.metadata.api.project.security.ProjectAccessControl;
 import com.thinkbiganalytics.metadata.modeshape.JcrMetadataAccess;
 import com.thinkbiganalytics.metadata.modeshape.project.JcrProject;
 import com.thinkbiganalytics.metadata.modeshape.project.providers.ProjectProvider;
-import com.thinkbiganalytics.projects.exceptions.NotebookIoException;
 import com.thinkbiganalytics.projects.exceptions.ProjectManagerException;
 import com.thinkbiganalytics.projects.security.ProjectSecurityService;
 import com.thinkbiganalytics.projects.security.RoleChangeListener;
 import com.thinkbiganalytics.projects.services.NotebookFileSystemService;
 import com.thinkbiganalytics.projects.services.ProjectService;
 import com.thinkbiganalytics.projects.services.ProjectsTransform;
-import com.thinkbiganalytics.projects.utils.NotebookRepoObjUtils;
 import com.thinkbiganalytics.security.UsernamePrincipal;
 
 import org.slf4j.Logger;
@@ -44,8 +42,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -66,9 +62,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Inject
     private NotebookFileSystemService notebookFileSystemService;
-
-    @Inject
-    private NotebookRepoObjUtils notebookRepoObjUtils;
 
     @Inject
     private ProjectSecurityService projectSecurityService;
@@ -217,84 +210,6 @@ public class ProjectServiceImpl implements ProjectService {
         });
     }
 
-    @Override
-    public void userFileCreated(Path userRepo, File file) {
-        logger.debug("userFileCreated({},{}) called", userRepo, file);
-
-        Path relativeToUserRepo = userRepo.relativize(file.toPath());
-        // extract user name
-        String originatingUser = relativeToUserRepo.getName(0).toString();
-        relativeToUserRepo = relativeToUserRepo.subpath(1, relativeToUserRepo.getNameCount());
-        Path dest = masterRepo.toPath().resolve(relativeToUserRepo);
-
-        // step1: synchronize the create to the master repo.
-        notebookRepoObjUtils.linkOrReplicate(file, dest);
-
-        // step 2: synchronize the create to all projects in all user repos.
-        //     get the accessors to the project via JcrProjectProvider.getProjectAccessors.
-        // TODO: need to distinguish between readers and writers
-        Path projectName = relativeToUserRepo.getName(0);
-
-        Set<UsernamePrincipal> users = getUsersWithProjectAccess(projectName.toString());
-        for (UsernamePrincipal user : users) {
-            if (user.getName().equals(originatingUser)) {
-                // skip originating user
-                continue;
-            }
-            String userName = user.getName();
-            Path userDest = usersRepo.toPath().resolve(userName).resolve(relativeToUserRepo);
-
-            // synchronize the create to other user repos
-            notebookRepoObjUtils.linkOrReplicate(file, userDest);
-        }
-    }
-
-    @Override
-    public void userFileDeleted(Path userRepo, File file) {
-        logger.debug("userFileDeleted({},{}) called", userRepo, file);
-
-        Path relativeToUserRepo = userRepo.relativize(file.toPath());
-        // extract user name
-        String originatingUser = relativeToUserRepo.getName(0).toString();
-        relativeToUserRepo = relativeToUserRepo.subpath(1, relativeToUserRepo.getNameCount());
-        Path dest = masterRepo.toPath().resolve(relativeToUserRepo);
-
-        // step1: synchronize the create to the master repo.
-        try {
-            File destFile = dest.toFile();
-            if (destFile.exists()) {
-                org.apache.commons.io.FileUtils.forceDelete(destFile);
-            }
-        } catch (IOException e) {
-            logger.error("Unable to remove master repo link '{}' when user fie system object '{}' was removed by user", dest, file);
-            throw new NotebookIoException(String.format("Unable to remove file '%s', could be possible race condition", dest));
-        }
-
-        // step 2: synchronize the create to all projects in all user repos.
-        //     get the accessors to the project via JcrProjectProvider.getProjectAccessors.
-        // TODO: need to distinguish between readers and writers
-        Path projectName = relativeToUserRepo.getName(0);
-
-        Set<UsernamePrincipal> users = getUsersWithProjectAccess(projectName.toString());
-        for (UsernamePrincipal user : users) {
-            if (user.getName().equals(originatingUser)) {
-                // skip originating user
-                continue;
-            }
-            String userName = user.getName();
-            Path userDest = usersRepo.toPath().resolve(userName).resolve(relativeToUserRepo);
-
-            try {
-                File userDestFile = userDest.toFile();
-                if (userDestFile.exists()) {
-                    org.apache.commons.io.FileUtils.forceDelete(userDestFile);
-                }
-            } catch (IOException e) {
-                logger.error("Unable to remove user repo link '{}' when another user fie system object '{}' was removed by user", userDest, file);
-                throw new NotebookIoException(String.format("Unable to remove file '%s', could be possible race condition", userDest));
-            }
-        }
-    }
 
     @Override
     public Collection<com.thinkbiganalytics.metadata.rest.model.Project> getProjects() {

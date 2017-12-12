@@ -27,7 +27,6 @@ import com.thinkbiganalytics.metadata.modeshape.MetadataRepositoryException;
 import com.thinkbiganalytics.metadata.modeshape.ModeShapeEngineConfig;
 import com.thinkbiganalytics.metadata.rest.model.Project;
 import com.thinkbiganalytics.projects.config.ProjectManagerConfig;
-import com.thinkbiganalytics.projects.services.files.UserFsObj;
 import com.thinkbiganalytics.projects.services.impl.ProjectServiceImpl;
 import com.thinkbiganalytics.projects.utils.FileUtils;
 import com.thinkbiganalytics.security.UsernamePrincipal;
@@ -174,96 +173,6 @@ public class TestProjectServices extends AbstractTestNGSpringContextTests {
             projectService.updateProject(rest);
         }, MetadataAccess.SERVICE);
 
-    }
-
-    @Test(dependsOnMethods = "testCreateProject")
-    public void testFileSystem() throws IOException, InterruptedException {
-        /*metadata.commit(() -> {
-            projectService.addUserRepoListener();
-        }, MetadataAccess.SERVICE);*/
-
-        Thread.sleep(2000);
-
-        String projectName = "Project4";
-        UserFsObj u1 = new UserFsObj.Builder().repoUrl(usersRepo.toPath())
-            .userName(MetadataAccess.SERVICE.getName())
-            .accessType(UserFsObj.ACCESS.WRITE)
-            .projectName(projectName)
-            .fsObj("file1")
-            .build();
-
-        File f1 = u1.getProjectPath().toFile();
-        assertThat(f1.exists()).isTrue();
-
-        FileUtils.writeFile(u1.absPath().toString(), "Yabba dabba doo");
-
-        assertThat(u1.absPath().toFile().exists()).isTrue();
-
-        /*
-        File f = Paths.get(masterRepo.getAbsolutePath(), "stop").toFile();
-        if (f.exists()) {
-            f.delete();
-        }
-
-        logger.info("Create {} to exit . . . ", f);
-        while (true) {
-            if (f.exists()) {
-                break;
-            }
-            Thread.sleep(100);
-        }
-        */
-
-        //File expectedMasterLink = masterRepo.toPath().resolve("Project4").resolve("file1").toFile();
-        File expectedMasterLink = u1.toMasterRepoFsObj().absPath().toFile();
-        waitForFile(expectedMasterLink, true);
-
-
-        // should have created a hard link in master repo,
-        assertThat(expectedMasterLink.exists()).isTrue();
-
-        // ... and every user.
-        File expectedTester1File = pathToTester1Project4.resolve("file1").toFile();
-        waitForFile(expectedTester1File, true);
-        logger.debug("expectedTester1File={}", expectedTester1File);
-        assertThat(expectedTester1File.exists()).isTrue();
-
-        File expectedTester2File = pathToTester2Project4.resolve("file1").toFile();
-        waitForFile(expectedTester2File, true);
-        logger.debug("expectedTester2File={}", expectedTester2File);
-        assertThat(expectedTester2File.exists()).isTrue();
-
-        // Now delete the file
-        f1.delete();
-
-        // and wait for it to get spotted by the watcher
-        waitForFile(expectedMasterLink, false);
-
-        // should have deleted a hard link in master repo,
-        assertThat(expectedMasterLink.exists()).isFalse();
-
-        // ... and every user.  In this case no logged in users.
-        waitForFile(expectedTester1File, false);
-        assertThat(expectedTester1File.exists()).isFalse();
-        waitForFile(expectedTester1File, false);
-        assertThat(expectedTester2File.exists()).isFalse();
-
-    }
-
-    private boolean waitForFile( File file, boolean toExist) throws InterruptedException {
-        return waitForFile(file, toExist, 150);
-    }
-
-    private boolean waitForFile( File file, boolean toExist, int maxChecks) throws InterruptedException {
-            for (int numChecks = 0; numChecks < maxChecks; numChecks++) {
-                Thread.sleep(100);
-                if( toExist && file.exists()) {
-                    return true;
-                } else if( !toExist && !file.exists()) {
-                    return true;
-                }
-            }
-            return false;
     }
 
     @Test(dependsOnMethods = "testUpdateProject")

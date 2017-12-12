@@ -27,7 +27,6 @@ import com.thinkbiganalytics.metadata.api.app.KyloVersionProvider;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.annotation.AnnotationAwareOrderComparator;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -73,7 +72,8 @@ public class KyloUpgradeService {
               "0.8.3.1",
               "0.8.3.2",
               "0.8.3.3",
-              "0.8.4"
+              "0.8.4",
+              "0.9.0"
         };
         
         UPGRADE_SEQUENCE = Collections.unmodifiableList(Arrays.stream(versions)

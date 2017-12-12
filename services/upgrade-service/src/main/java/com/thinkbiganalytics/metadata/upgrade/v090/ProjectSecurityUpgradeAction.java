@@ -1,7 +1,7 @@
 /**
  *
  */
-package com.thinkbiganalytics.metadata.upgrade.v084;
+package com.thinkbiganalytics.metadata.upgrade.v090;
 
 /*-
  * #%L
@@ -36,13 +36,14 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 /**
  * Adds the services-level permissions for the feed manager.
  */
 @Component("projectSecurityUpgradeAction")
-@Order(840)  // Order only relevant during fresh installs
+@Order(900)  // Order only relevant during fresh installs
 @Profile(KyloUpgrader.KYLO_UPGRADE)
 public class ProjectSecurityUpgradeAction implements UpgradeState {
 
@@ -54,12 +55,17 @@ public class ProjectSecurityUpgradeAction implements UpgradeState {
 
     @Override
     public boolean isTargetVersion(KyloVersion version) {
-        return version.matches("0.8", "4", "");
+        return version.matches("0.9", "0", "");
     }
 
     @Override
     public boolean isTargetFreshInstall() {
         return true;
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        logger.debug("ProjectSecurityUpgradeAction bean was created");
     }
 
     @Override
