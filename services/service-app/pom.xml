@@ -200,11 +200,10 @@
     </dependency>
 
     <dependency>
-      <groupId>com.thinkbiganalytics.kylo</groupId>
-      <artifactId>kylo-project-manager-service</artifactId>
+      <groupId>com.thinkbiganalytics.kylo.plugins</groupId>
+      <artifactId>jupyter-plugin-services</artifactId>
       <version>${project.version}</version>
     </dependency>
-
 
     <dependency>
       <groupId>com.thinkbiganalytics.kylo</groupId>
