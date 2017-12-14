@@ -685,7 +685,7 @@ define(['angular', 'kylo-common', '@uirouter/angular', 'kylo-services',
             name: 'projects.**',
             url: '/projects',
             lazyLoad: function (transition) {
-                transition.injector().get('$ocLazyLoad').load('feed-mgr/projects/module').then(function success(args) {
+                transition.injector().get('$ocLazyLoad').load('plugin/projects/module').then(function success(args) {
                     //upon success go back to the state
                     $stateProvider.stateService.go('projects')
                     return args;
@@ -700,7 +700,7 @@ define(['angular', 'kylo-common', '@uirouter/angular', 'kylo-services',
                 projectId: null
             },
             lazyLoad: function (transition) {
-                transition.injector().get('$ocLazyLoad').load('feed-mgr/projects/module').then(function success(args) {
+                transition.injector().get('$ocLazyLoad').load('plugin/projects/module').then(function success(args) {
                     //upon success go back to the state
                     $stateProvider.stateService.go('project-details', transition.params())
                     return args;

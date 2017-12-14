@@ -174,18 +174,6 @@ define(['angular', 'services/module-name'], function (angular, moduleName) {
             return data;
         }
 
-        var ProjectStates = function () {
-            var data = {};
-            data.navigateToProjectDetails = function (projectId) {
-                $state.go('project-details', {projectId: projectId});
-            }
-
-            data.navigateToCategories = function () {
-                $state.go('projects');
-            }
-            return data;
-        }
-
         var CategoryStates = function () {
             var data = {};
             data.navigateToCategoryDetails = function (categoryId) {
@@ -239,7 +227,6 @@ define(['angular', 'services/module-name'], function (angular, moduleName) {
 
         var FeedManagerStates = function () {
             var data = {};
-            data.Project = ProjectStates;
             data.Category = CategoryStates;
             data.Feed = FeedStates;
             data.Sla = SlaStates;

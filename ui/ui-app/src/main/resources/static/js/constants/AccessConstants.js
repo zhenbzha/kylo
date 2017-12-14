@@ -1,25 +1,6 @@
 define([], function () {
     var AccessConstants = function () {
         /**
-         * Allows access to projects.
-         * @type {string}
-         */
-        this.PROJECTS_ACCESS = "accessProject";
-
-        /**
-         * Allows the administration of any project; even those created by others.
-         * @type {string}
-         */
-        // TODO: change perms or admin?
-        this.PROJECTS_ADMIN = "adminProjects";
-
-        /**
-         * Allows creating and editing new products.
-         * @type {string}
-         */
-        this.PROJECTS_EDIT = "editProject";
-
-        /**
          * Allows access to categories.
          * @type {string}
          */
@@ -54,12 +35,6 @@ define([], function () {
          * @type {string}
          */
         this.FEEDS_ACCESS = "accessFeeds";
-
-        /**
-         * Allows access to projects.
-         * @type {string}
-         */
-        this.PROJECTS_ACCESS = "accessProject";
 
         /**
          * Allows the administration of any feed; even those created by others.
@@ -244,14 +219,6 @@ define([], function () {
         this.ADMIN_METADATA= "adminMetadata";
 
         this.ENTITY_ACCESS = {
-            PROJECT: {
-                //   EDIT_CATEGORY_SUMMARY: "editCategorySummary", // will not be used in v 0.8.0
-                EDIT_PROJECT_DETAILS: "editProjectDetails",
-                DELETE_PROJECT: "deleteProject",
-                //CREATE_CATEGORY: "createFeedUnderCategory",
-                //ENABLE_CATEGORY: "enableProject",
-                CHANGE_PROJECT_PERMISSIONS: "changeProjectPermissions"
-            },
             CATEGORY: {
                 //   EDIT_CATEGORY_SUMMARY: "editCategorySummary", // will not be used in v 0.8.0
                 EDIT_CATEGORY_DETAILS: "editCategoryDetails",
@@ -283,9 +250,6 @@ define([], function () {
         };
 
         this.UI_STATES = {
-            PROJECTS: {state: "projects", permissions: []}, // this.PROJECTS_ACCESS
-            PROJECT_DETAILS: {state: "project-details", permissions: []}, // this.PROJECTS_ACCESS
-
             FEEDS: {state: "feeds", permissions: [this.FEEDS_ACCESS]},
             DEFINE_FEED: {state: "define-feed", permissions: [this.FEEDS_EDIT]},
             DEFINE_FEED_COMPLETE: {state: "define-feed-complete", permissions: [this.FEEDS_ACCESS]},

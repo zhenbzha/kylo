@@ -52,8 +52,6 @@ define(['angular', 'feed-mgr/module-name'], function (angular, moduleName) {
 
         this.CODE_MIRROR_TYPES_URL = this.ROOT + "/proxy/v1/feedmgr/util/codemirror-types";
 
-        this.PROJECTS_URL = this.ROOT + "/proxy/v1/projectManager/projects";
-
         this.CATEGORIES_URL = this.ROOT + "/proxy/v1/feedmgr/categories";
 
         this.SEARCH_URL = this.ROOT + "/proxy/v1/feedmgr/search";
@@ -302,16 +300,6 @@ define(['angular', 'feed-mgr/module-name'], function (angular, moduleName) {
         this.FEED_ROLES_URL = function (feedId) {
             return self.FEEDS_BASE_URL + "/" + feedId + "/roles"
         };
-
-        /**
-         * Get/Post roles changes for a Category entity
-         * @param categoryId the category id
-         * @returns {string} the url to get/post category role changes
-         */
-        this.PROJECT_ROLES_URL = function (projectId) {
-            return self.PROJECTS_URL + "/" + projectId + "/roles"
-        };
-
 
         /**
          * Get/Post roles changes for a Category entity
