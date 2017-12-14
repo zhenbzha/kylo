@@ -14,8 +14,4 @@
 
 [tba:project] > tba:entity //, tba:accessControlled // tba:propertied  ?, <== represents the project entity
  - tba:projectName (STRING)
- + tba:notebooksFolder (tba:notebookFolder)
-
-[tba:notebookFolder] > tba:entity // , tba:accessControlled  // <== represents the notebookFolder entity
- - tba:notebookFolderName (STRING)
-
+ - tba:containerImage (STRING)

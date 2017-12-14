@@ -79,7 +79,7 @@ public class JcrProjectProviderTest extends AbstractTestNGSpringContextTests {
             pj1.setSystemName("ProjectName2");
             pj1.setProjectName("Project Name 2");
             pj1.setDescription("This is a fully defined project");
-            pj1.setNotebookFolderEnabled(true);
+            pj1.setContainerImage("kylo/nonExistentContainer");
         }, MetadataAccess.SERVICE);
     }
 
@@ -92,9 +92,9 @@ public class JcrProjectProviderTest extends AbstractTestNGSpringContextTests {
 
             Project project = optional.get();
 
-            assertThat(project).extracting(Project::getSystemName, Project::getProjectName, Project::getDescription,
-                                           Project::isNotebookFolderEnabled)
-                .containsExactly("ProjectName2", "Project Name 2", "This is a fully defined project", true);
+            assertThat(project).extracting(Project::getSystemName, Project::getProjectName,
+                                           Project::getDescription, Project::getContainerImage)
+                .containsExactly("ProjectName2", "Project Name 2", "This is a fully defined project", "kylo/nonExistentContainer");
         }, MetadataAccess.SERVICE);
     }
 

@@ -110,7 +110,7 @@ public class JcrProjectProviderAccessControlTest extends AbstractTestNGSpringCon
 
             Project p3 = projProvider.ensureProject("Project3");
             p3.setProjectName("ProjectName3");
-            p3.setNotebookFolderEnabled(true);
+            p3.setContainerImage("kylo/nonExisentImage");
 
             // sets Access Control for user.
             //p3.getAllowedActions().enableAll(TEST_USER1);

@@ -53,11 +53,6 @@ public class JcrProject extends AbstractJcrAuditableSystemEntity implements Proj
     public static String ICON_COLOR = "tba:iconColor";
 
     /**
-     * Name of the {@code notebookFolderName} property
-     */
-    private static final String NOTEBOOK_FOLDER_ENABLED = "tba:notebookFolderEnabled";
-
-    /**
      * Name of the {@code containerImage} property
      */
     private static final String CONTAINER_IMAGE = "tba:containerImage";
@@ -89,17 +84,6 @@ public class JcrProject extends AbstractJcrAuditableSystemEntity implements Proj
     @Override
     public void setProjectName(@Nullable String displayName) {
         setTitle(displayName);
-    }
-
-    @Nullable
-    @Override
-    public Boolean isNotebookFolderEnabled() {
-        return getProperty(NOTEBOOK_FOLDER_ENABLED, Boolean.class);
-    }
-
-    @Override
-    public void setNotebookFolderEnabled(@Nullable Boolean notebookFolder) {
-        setProperty(NOTEBOOK_FOLDER_ENABLED, notebookFolder);
     }
 
     @Override

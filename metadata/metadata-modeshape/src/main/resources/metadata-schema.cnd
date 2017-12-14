@@ -371,7 +371,6 @@
 [tba:project] > tba:entity, tba:accessControlled, tba:propertied
     - tba:icon (STRING)
     - tba:iconColor (STRING)
-    - tba:notebookFolderEnabled (BOOLEAN) = 'false'
     - tba:containerImage (STRING)
 
 /**

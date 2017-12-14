@@ -32,9 +32,9 @@ public class Project extends EntityAccessControl {
     private String systemName;
     private String projectName;
     private String description;
+    private String containerImage;
     private String icon;
     private String iconColor;
-    private boolean notebookFolderEnabled;
 
     public String getId() {
         return id;
@@ -68,6 +68,14 @@ public class Project extends EntityAccessControl {
         this.description = description;
     }
 
+    public String getContainerImage() {
+        return containerImage;
+    }
+
+    public void setContainerImage(String image) {
+        this.containerImage = image;
+    }
+
     public String getIcon() {
         return icon;
     }
@@ -82,14 +90,6 @@ public class Project extends EntityAccessControl {
 
     public void setIconColor(String iconColor) {
         this.iconColor = iconColor;
-    }
-
-    public boolean isNotebookFolderEnabled() {
-        return notebookFolderEnabled;
-    }
-
-    public void setNotebookFolderEnabled(boolean notebookFolderEnabled) {
-        this.notebookFolderEnabled = notebookFolderEnabled;
     }
 
     @Override
@@ -112,13 +112,16 @@ public class Project extends EntityAccessControl {
         if (getDescription() != null ? !getDescription().equals(project.getDescription()) : project.getDescription() != null) {
             return false;
         }
+        if (getContainerImage() != null ? !getContainerImage().equals(project.getContainerImage()) : project.getContainerImage() != null) {
+            return false;
+        }
         if (getIcon() != null ? !getIcon().equals(project.getIcon()) : project.getIcon() != null) {
             return false;
         }
         if (getIconColor() != null ? !getIconColor().equals(project.getIconColor()) : project.getIconColor() != null) {
             return false;
         }
-        return isNotebookFolderEnabled() == project.isNotebookFolderEnabled();
+        return true;
     }
 
     @Override
@@ -126,6 +129,7 @@ public class Project extends EntityAccessControl {
         int result = getProjectName() != null ? getProjectName().hashCode() : 0;
         result = 31 * result + (getSystemName() != null ? getSystemName().hashCode() : 0);
         result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
+        result = 31 * result + (getContainerImage() != null ? getContainerImage().hashCode() : 0);
         result = 31 * result + (getIcon() != null ? getIcon().hashCode() : 0);
         result = 31 * result + (getIconColor() != null ? getIconColor().hashCode() : 0);
         return result;

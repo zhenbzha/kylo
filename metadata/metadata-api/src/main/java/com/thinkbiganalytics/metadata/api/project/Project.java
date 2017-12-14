@@ -26,6 +26,7 @@ import org.joda.time.DateTime;
 
 import java.io.Serializable;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public interface Project extends AccessControlled {
@@ -47,23 +48,20 @@ public interface Project extends AccessControlled {
 
     void setDescription(@Nullable final String description);
 
-    @Nullable
-    Boolean isNotebookFolderEnabled();
+    @Nonnull
+    String getContainerImage();
 
-    void setNotebookFolderEnabled(@Nullable final Boolean notebookFolder);
+    void setContainerImage(String image);
 
     @Nullable
     String getIcon();
 
     void setIcon(String icon);
 
+    @Nullable
     String getIconColor();
 
     void setIconColor(String iconColor);
-
-    String getContainerImage();
-
-    void setContainerImage(String image);
 
     DateTime getCreatedTime();
 
