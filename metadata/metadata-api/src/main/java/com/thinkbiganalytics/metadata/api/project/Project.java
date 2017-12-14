@@ -57,10 +57,13 @@ public interface Project extends AccessControlled {
 
     void setIcon(String icon);
 
-    @Nullable
     String getIconColor();
 
     void setIconColor(String iconColor);
+
+    String getContainerImage();
+
+    void setContainerImage(String image);
 
     DateTime getCreatedTime();
 

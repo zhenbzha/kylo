@@ -372,6 +372,7 @@
     - tba:icon (STRING)
     - tba:iconColor (STRING)
     - tba:notebookFolderEnabled (BOOLEAN) = 'false'
+    - tba:containerImage (STRING)
 
 /**
 * [tba:serviceLevelAssessment] > nt:hierarchyNode, mix:referenceable

@@ -36,7 +36,6 @@ import javax.jcr.RepositoryException;
 
 public class JcrProject extends AbstractJcrAuditableSystemEntity implements Project, AccessControlledMixin {
 
-
     /**
      * JCR node type for projects
      */
@@ -57,6 +56,11 @@ public class JcrProject extends AbstractJcrAuditableSystemEntity implements Proj
      * Name of the {@code notebookFolderName} property
      */
     private static final String NOTEBOOK_FOLDER_ENABLED = "tba:notebookFolderEnabled";
+
+    /**
+     * Name of the {@code containerImage} property
+     */
+    private static final String CONTAINER_IMAGE = "tba:containerImage";
 
     /**
      * Constructs a {@code Project} using the specified node.
@@ -111,6 +115,17 @@ public class JcrProject extends AbstractJcrAuditableSystemEntity implements Proj
 
     @Override
     @Nullable
+    public String getContainerImage() {
+        return super.getProperty(CONTAINER_IMAGE, String.class, false);
+    }
+
+    @Override
+    public void setContainerImage(String image) {
+        super.setProperty(CONTAINER_IMAGE, image);
+    }
+
+    @Override
+    @Nullable
     public String getIcon() {
         return super.getProperty(ICON, String.class, true);
     }
@@ -119,7 +134,6 @@ public class JcrProject extends AbstractJcrAuditableSystemEntity implements Proj
     public void setIcon(String icon) {
         super.setProperty(ICON, icon);
     }
-
 
     @Override
     public Class<? extends JcrAllowedActions> getJcrAllowedActionsType() {
