@@ -199,11 +199,13 @@
       <version>${project.version}</version>
     </dependency>
 
+<!--
     <dependency>
       <groupId>com.thinkbiganalytics.kylo.plugins</groupId>
       <artifactId>jupyter-plugin-services</artifactId>
       <version>${project.version}</version>
     </dependency>
+-->
 
     <dependency>
       <groupId>com.thinkbiganalytics.kylo</groupId>
