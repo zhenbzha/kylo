@@ -20,6 +20,7 @@ package com.thinkbiganalytics.metadata.modeshape.project.providers;
  * #L%
  */
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.thinkbiganalytics.metadata.api.project.Project;
 import com.thinkbiganalytics.metadata.api.project.security.ProjectAccessControl;
@@ -245,6 +246,46 @@ public class JcrProjectProvider extends BaseJcrProvider<Project, Project.ID> imp
     public Set<UsernamePrincipal> getProjectReaders(Project domain) {
         return getProjectMembersWithRole(domain, ProjectAccessControl.ROLE_READER);
     }
+
+    @Override
+    public Set<UsernamePrincipal> getProjectOwnerAndReaders(String systemName) {
+        Set<UsernamePrincipal> users = Sets.newHashSet();
+
+        users.addAll(
+            getProjectOwnerPlusRole(systemName,ProjectAccessControl.ROLE_READER) );
+        users.addAll(
+            getProjectOwnerPlusRole(systemName,ProjectAccessControl.ROLE_EDITOR) );
+        users.addAll(
+            getProjectOwnerPlusRole(systemName,ProjectAccessControl.ROLE_ADMIN) );
+
+        return users;
+    }
+
+    @Override
+    public Set<UsernamePrincipal> getProjectOwnerAndEditors(String systemName) {
+        Set<UsernamePrincipal> users = Sets.newHashSet();
+
+        users.addAll(
+            getProjectOwnerPlusRole(systemName,ProjectAccessControl.ROLE_EDITOR) );
+        users.addAll(
+            getProjectOwnerPlusRole(systemName,ProjectAccessControl.ROLE_ADMIN) );
+
+        return users;
+    }
+
+    private Set<UsernamePrincipal> getProjectOwnerPlusRole(String systemName, String accessControl) {
+        Optional<Project> proj = findProjectByName(systemName);
+
+        if( proj.isPresent() ) {
+            Project domain = proj.get();
+            Set<UsernamePrincipal> result =  getProjectMembersWithRole(domain, accessControl);
+            result.add((UsernamePrincipal)domain.getOwner());  // Owners can read...
+            return result;
+        } else {
+            return ImmutableSet.of();
+        }
+    }
+
 
 
 }
