@@ -1,14 +1,18 @@
 define(['angular','services/module-name'], function (angular,moduleName) {
     angular.module(moduleName).service('FileUpload', ['$http', function ($http) {
-        this.uploadFileToUrl = function (file, uploadUrl, successFn, errorFn, params) {
+        this.uploadFileToUrl = function (files, uploadUrl, successFn, errorFn, params) {
             var fd = new FormData();
-            fd.append('file', file);
+
+            angular.forEach(files, function(file, index) {
+                fd.append('file' + index + 1, file);
+            });
+
             if (params) {
                 angular.forEach(params, function (val, key) {
                     fd.append(key, val);
                 })
             }
-            $http.post(uploadUrl, fd, {
+            $http.post(uploadUrl, fd, { 
                 transformRequest: angular.identity,
                 headers: {'Content-Type': undefined}
             })
